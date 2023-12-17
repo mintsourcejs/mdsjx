@@ -1,0 +1,37 @@
+{
+  "name": "@mintsourcejs/mdxjs-react",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
+  "type": "module",
+  "description": "Components for use with @mdx-js/react to provide react-live based code block support",
+  "license": "MIT",
+  "author": "Ian Henshaw",
+  "keywords": ["mdx", "mdxjs", "live", "react"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "babel src --out-dir dist --source-maps --copy-files",
+    "dev": "babel src --watch --out-dir dist --source-maps --copy-files",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "classnames": "^2.3.2",
+    "prop-types": "^15.6.0",
+    "react-live": "^2.4.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "eslint": "^8.52.0",
+    "eslint-plugin-react": "^7.13.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "react": "^16.8.0||^17.0.0||^18.0.0",
+    "sass": "^1.69.5"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0||^17.0.0||^18.0.0"
+  }
+}

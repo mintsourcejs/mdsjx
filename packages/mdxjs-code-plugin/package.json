@@ -1,0 +1,33 @@
+{
+  "name": "@mintsourcejs/mdxjs-code-plugin",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
+  "type": "module",
+  "description": "A plugin for @mdx-js/mdx@2.x to add underlying data/functionality to MDX documents required to support a live code editing implementation.",
+  "license": "MIT",
+  "author": "Ian Henshaw",
+  "keywords": ["mdx", "mdxjs", "plugin", "live", "rehype"],
+  "publishConfig": {
+    "access": "public"
+  },  
+  "scripts": {
+    "build": "babel src --out-dir dist --source-maps --copy-files",
+    "dev": "babel src --watch --out-dir dist --source-maps --copy-files",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "@mintsourcejs/mdxjs-common": "^0.1.0",
+    "acorn": "^8.11.2",
+    "mdast-util-from-markdown": "^2.0.0",
+    "mdast-util-mdx-jsx": "^3.0.0",
+    "mdast-util-mdxjs-esm": "^2.0.1",
+    "micromark-extension-mdxjs-esm": "^3.0.0",
+    "unist-util-visit": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "eslint": "^8.52.0"
+  }
+}

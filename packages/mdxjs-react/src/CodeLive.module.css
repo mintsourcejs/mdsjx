@@ -1,0 +1,42 @@
+.codeLive {
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+}
+
+.codeExample {
+    margin-bottom: 0.5rem;
+}
+
+.codeControls {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-bottom: 0.5rem;
+}
+
+.iconButton {
+    align-items: center;
+    border: 0;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    min-height: 38px;
+    min-width: 38px;
+    padding: 0;
+    outline: 0;
+    font-size: 1.5rem;
+}
+
+:iconButton:focus,
+:iconButton:hover {
+    background-color: #ccc;
+}
+
+.collapse {
+    display: none;
+}
+
+.collapse.open {
+    display: block;
+}
