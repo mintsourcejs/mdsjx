@@ -16,6 +16,13 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mintsourcejs/mdsjx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mintsourcejs/mdsjx/issues"
+  },  
   "scripts": {
     "build": "babel src --out-dir dist --source-maps --copy-files",
     "dev": "babel src --watch --out-dir dist --source-maps --copy-files",

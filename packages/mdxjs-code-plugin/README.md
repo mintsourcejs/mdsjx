@@ -15,7 +15,7 @@ Here is a list of its major functions.
 ### With Vite
 ```js
 import mdx from '@mdx-js/rollup'
-import { rehypeCodePlugin } from '@mintsourcejs/mdxjs-code--plugin';
+import { rehypeCodePlugin } from '@mintsourcejs/mdxjs-code-plugin';
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
