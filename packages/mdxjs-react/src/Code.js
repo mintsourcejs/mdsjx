@@ -1,11 +1,11 @@
-import Highlight, { defaultProps } from "prism-react-renderer";
-import theme from "prism-react-renderer/themes/vsDark";
+import { Highlight } from "prism-react-renderer";
+import { themes } from "prism-react-renderer";
 import PropTypes from "prop-types";
 import React, { useMemo } from "react";
 import { CodeLive } from "./CodeLive.js";
 import { parseMeta } from "./parseMeta.js";
 
-export const Code = ({ children, className, language, ...props }) => {
+export const Code = ({ children, className, language, theme, ...props }) => {
     const meta = useMemo(() => parseMeta(props["data-meta"]), [props["data-meta"]]);
     
     // no language specified? extract one from the className if possible.
@@ -22,7 +22,7 @@ export const Code = ({ children, className, language, ...props }) => {
     }
 
     return (
-        <Highlight {...defaultProps} code={code} language={language} theme={theme}>
+        <Highlight code={code} language={language} theme={theme}>
             {({ className, style, tokens, getLineProps, getTokenProps }) => (
                 <pre className={className} style={{...style, padding: "10px"}}>
                     {tokens.map((line, i) => (
@@ -41,5 +41,10 @@ export const Code = ({ children, className, language, ...props }) => {
 Code.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
-    language: PropTypes.string
+    language: PropTypes.string,
+    theme: PropTypes.object
+};
+
+Code.defaultProps = {
+    theme: themes.vsDark
 };
