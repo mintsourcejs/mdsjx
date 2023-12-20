@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { LinkIcon } from "./icons/LinkIcon.js";
 
-import styles from "./Heading.module.scss";
+import styles from "./Heading.module.css";
 
 export const Heading = ({ children, id, tag: Tag }) => {
     return (
