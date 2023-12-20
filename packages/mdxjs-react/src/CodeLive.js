@@ -9,7 +9,7 @@ import { useMdxScope } from "./useMdxScope.js";
 
 import styles from "./CodeLive.module.css";
 
-export const CodeLive = ({ className, code, language, live, noInline }) => {
+export const CodeLive = ({ className, code, language, live, noInline, theme }) => {
     const scope = useMdxScope();
 
     const imports = useMemo(() => extractImports(code), [code]);
