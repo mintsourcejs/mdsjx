@@ -1,6 +1,6 @@
 {
   "name": "@mintsourcejs/mdxjs-code-plugin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "./dist/index.js",
   "type": "module",
   "description": "A plugin for @mdx-js/mdx@2.x to add underlying data/functionality to MDX documents required to support a live code editing implementation.",
@@ -22,14 +22,14 @@
   },
   "bugs": {
     "url": "https://github.com/mintsourcejs/mdsjx/issues"
-  },  
+  },
   "scripts": {
     "build": "babel src --out-dir dist --source-maps --copy-files",
     "dev": "babel src --watch --out-dir dist --source-maps --copy-files",
     "lint": "eslint src"
   },
   "dependencies": {
-    "@mintsourcejs/mdxjs-common": "^0.1.1",
+    "@mintsourcejs/mdxjs-common": "^0.1.2",
     "acorn": "^8.11.2",
     "mdast-util-from-markdown": "^2.0.0",
     "mdast-util-mdx-jsx": "^3.0.0",

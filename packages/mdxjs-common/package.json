@@ -1,6 +1,6 @@
 {
   "name": "@mintsourcejs/mdxjs-common",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "./dist/index.js",
   "type": "module",
   "license": "MIT",
@@ -14,7 +14,7 @@
   },
   "bugs": {
     "url": "https://github.com/mintsourcejs/mdsjx/issues"
-  },  
+  },
   "scripts": {
     "build": "babel src --out-dir dist --source-maps --copy-files",
     "dev": "babel src --watch --out-dir dist --source-maps --copy-files",
