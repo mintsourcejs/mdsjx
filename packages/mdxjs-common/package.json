@@ -18,12 +18,15 @@
   "scripts": {
     "build": "babel src --out-dir dist --source-maps --copy-files",
     "dev": "babel src --watch --out-dir dist --source-maps --copy-files",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "jest src"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.3.1",
-    "eslint": "^8.52.0"
+    "@babel/preset-env": "^7.23.6",
+    "babel-jest": "^29.7.0",
+    "eslint": "^8.52.0",
+    "jest": "^29.7.0"
   }
 }
