@@ -10,10 +10,13 @@ export function renderImport(importSpec) {
 
     if (importSpec.namedImports && importSpec.namedImports.length) {
         const namedImports = importSpec.namedImports.map(namedImport => {
-            if (typeof namedImport === "object" && namedImport.alias) {
-                return `${namedImport.name} as ${namedImport.alias}`;
+            if (typeof namedImport === "object") {
+                if (namedImport.alias) {
+                    return `${namedImport.name} as ${namedImport.alias}`;
+                }
+                return namedImport.name;
             }
-            return namedImport.name;
+            return namedImport;
         });
         result+= `{${namedImports.join(', ')}}`;
     }
