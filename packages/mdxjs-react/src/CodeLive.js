@@ -9,8 +9,15 @@ import { useMdxScope } from "./useMdxScope.js";
 
 import styles from "./CodeLive.module.css";
 
-export const CodeLive = ({ className, code, language, live, noInline, theme }) => {
-    const scope = useMdxScope();
+export const CodeLive = ({ className, code, language, live, noInline, scopeMapping, theme }) => {
+    const globalScope = useMdxScope();
+
+    const scope = useMemo(() => {
+        return Object.entries(scopeMapping).reduce((result, [localName, alias]) => {
+            result[localName] = globalScope[alias];
+            return result;
+        }, {});
+    }, [globalScope, scopeMapping])
 
     const imports = useMemo(() => extractImports(code), [code]);
 

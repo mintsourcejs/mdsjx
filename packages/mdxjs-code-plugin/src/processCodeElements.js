@@ -1,5 +1,6 @@
 import { extractImports } from "@mintsourcejs/mdxjs-common";
 import { visit } from "unist-util-visit";
+import { mangleName } from "./mangleName.js";
 
 /**
  * 
@@ -40,12 +41,14 @@ export function processCodeElements(tree, opts) {
             // to pass into the "data-scope" attribute on the "code" node.
             const scope = importSpecs.reduce((result, importSpec) => {
                 if (importSpec.namedImports) {
-                    result.push(...importSpec.namedImports);
+                    importSpec.namedImports.forEach(namedImportSpec => {
+                        result[namedImportSpec.alias || namedImportSpec.name] = mangleName(namedImportSpec.name, importSpec.module);
+                    });
                 }
                 return result;
-            }, []);
-
-            node.properties["data-scope"] = scope.join(",");                        
+            }, {});
+            
+            node.properties["data-scope"] = JSON.stringify(scope);                       
         }                    
     });
 
