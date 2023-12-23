@@ -2,6 +2,8 @@ import React from "react";
 import { Code } from "./Code.js";
 import { Heading } from "./Heading.js";
 
+import styles from "./mdxComponents.module.css";
+
 export const mdxComponents = {
     h2: ({ children, ...props }) => {
         // generate the id from the text given to the heading.

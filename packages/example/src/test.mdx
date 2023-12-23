@@ -3,6 +3,8 @@
 ### Heading 3
 #### Heading 4
 
+# A live code block
+
 ```jsx live
 import { useState } from "react";
 
@@ -16,6 +18,11 @@ import { useState } from "react";
     )
 }
 ```
+
+## Isolated Scopes
+
+The following two code blocks both import named exports from different modules, but the named exports have the same 
+name. This demonstrates that the scopes for the two live code blocks are isolated from each other.
 
 ```jsx live
 import { Button } from "module-a"
