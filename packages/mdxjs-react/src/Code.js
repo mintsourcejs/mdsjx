@@ -7,6 +7,7 @@ import { parseMeta } from "./parseMeta.js";
 
 export const Code = ({ children, className, language, theme, ...props }) => {
     const meta = useMemo(() => parseMeta(props["data-meta"]), [props["data-meta"]]);
+    const scope = useMemo(() => JSON.parse(props["data-scope"]), [props["data-scope"]]);
     
     // no language specified? extract one from the className if possible.
     language || (language = className?.substr('language-'.length));
@@ -18,7 +19,7 @@ export const Code = ({ children, className, language, theme, ...props }) => {
     }
 
     if (meta.live) {
-        return <CodeLive className={className} code={code} language={language} {...meta} />;
+        return <CodeLive {...meta} className={className} code={code} language={language} scopeMapping={scope} />;
     }
 
     return (

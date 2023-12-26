@@ -1,4 +1,4 @@
-import { extractImports, importParser, mergeImports } from "./codeUtils";
+import { extractImports, importParser, mergeImports } from "./index.js";
 
 describe("extract imports", () => {
     it("should extract an import", () => {
@@ -11,14 +11,22 @@ describe("extract imports", () => {
     one,
     two
 } from "my-module";`);
-        expect(imports).toEqual([{module: "my-module", namedImports: ["one", "two"]}]);
+        expect(imports).toEqual([{
+            module: "my-module", 
+            namedImports: [
+                { name: "one" }, 
+                { name: "two" }
+            ]
+        }]);
     });
 
     it("should extract multiple imports", () => {
         const imports = extractImports("import myDefault from 'my-module';import {one} from 'my-other-module';");
         expect(imports).toEqual([
             {module: "my-module", defaultImport: "myDefault"},
-            {module: "my-other-module", namedImports: ["one"]}
+            {module: "my-other-module", namedImports: [
+                { name: "one" }
+            ]}
         ]);
     });
 });
@@ -28,21 +36,42 @@ describe("importParser parses", () => {
         const result = importParser("import Numbers from 'numbers';");
         expect(result.module).toBe("numbers");
         expect(result.defaultImport).toBe("Numbers");
-        expect(result.namedImports).toBe(undefined);
+        expect(result.namedImports).toBe(undefined);            
     });
 
     it("only named imports", () => {
         const result = importParser("import {One, Two, Three} from 'numbers';");
-        expect(result.module).toBe("numbers");
-        expect(result.defaultImport).toBe(undefined);
-        expect(result.namedImports).toEqual(["One", "Two", "Three"]);
+        expect(result).toEqual({
+            module: "numbers",
+            namedImports: [
+                { name: "One" },
+                { name: "Two" },
+                { name: "Three" }
+            ]
+        });
     });
 
     it("both default and named imports", () => {
-        const result = importParser("import Numbers, {One, Two, Three} from 'numbers';");
-        expect(result.module).toBe("numbers");
-        expect(result.defaultImport).toBe("Numbers");
-        expect(result.namedImports).toEqual(["One", "Two", "Three"]);
+        const result = importParser("import Numbers, {One, \nTwo, Three as ThreeAlias} from 'numbers';");
+        expect(result).toEqual({
+            module: "numbers",
+            defaultImport: "Numbers",
+            namedImports: [
+                { name: "One" },
+                { name: "Two" },
+                { name: "Three", alias: "ThreeAlias" }
+            ]
+        });
+    });
+
+    it("named import with alias", () => {
+        const result = importParser("import {One as OneAlias} from 'numbers';");
+        expect(result).toEqual({
+            module: "numbers",
+            namedImports: [
+                { name: "One", alias: "OneAlias" },
+            ]
+        });
     });
 
     it("files", () => {
