@@ -1,7 +1,7 @@
 {
   "name": "example",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@mdx-js/react": "^3.0.0",
-    "@mintsourcejs/mdxjs-react": "^0.2.0",
+    "@mintsourcejs/mdxjs-react": "^0.3.0",
     "clsx": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -19,8 +19,8 @@
   },
   "devDependencies": {
     "@mdx-js/rollup": "^3.0.0",
-    "@mintsourcejs/mdxjs-code-plugin": "^0.1.2",
-    "@mintsourcejs/mdxjs-common": "^0.1.2",
+    "@mintsourcejs/mdxjs-code-plugin": "^0.2.0",
+    "@mintsourcejs/mdxjs-common": "^0.2.0",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@vitejs/plugin-react": "^4.2.0",
