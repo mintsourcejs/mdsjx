@@ -17,8 +17,14 @@ export function mergeImports(importSpecs) {
         if (statement.namedImports) {
             module.namedImports || (module.namedImports = []);
             for (const namedImport of statement.namedImports) {
-                if (module.namedImports.indexOf(namedImport) === -1) {
-                    module.namedImports.push(namedImport);
+                if (typeof namedImport === "object") {
+                    if (!module.namedImports.find(namedImportSpec => namedImportSpec.name === namedImport.name && namedImportSpec.alias === namedImportSpec.alias)) {
+                        module.namedImports.push(namedImport);
+                    }
+                } else {
+                    if (!module.namedImports.find(namedImportSpec => namedImportSpec.name === namedImport)) {
+                        module.namedImports.push({ name: namedImport });
+                    }    
                 }
             }
         }

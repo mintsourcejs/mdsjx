@@ -1,5 +1,5 @@
 import { mergeImports, renderImport } from "@mintsourcejs/mdxjs-common";
-import { mangleName } from "./mangleName.js";
+import { mangleDefaultIdentifier, mangleNamedIdentifier } from "./mangleName.js";
 import { processCodeElements } from "./processCodeElements.js";
 import { createMdxjsEsmNode, createMdxJsxFlowElement } from "./rehypeUtils.js";
 
@@ -20,13 +20,17 @@ export function rehypeCodePlugin(opts) {
 
             const { mangledImportSpecs, mangledIdentifiers } = mergedCodeImportSpecs.reduce((result, importSpec) => {
                 const mangledImportSpec = {
-                    defaultImport: importSpec.defaultImport && mangleName(importSpec.defaultImport, importSpec.module),
+                    defaultImport: importSpec.defaultImport && mangleDefaultIdentifier(importSpec.module),
                     namedImports: importSpec.namedImports && [],
                     module: importSpec.module
                 };
 
+                if (mangledImportSpec.defaultImport) {
+                    result.mangledIdentifiers.push(mangledImportSpec.defaultImport);
+                }
+                
                 importSpec.namedImports?.forEach(namedImportSpec => {                 
-                    const mangledName = mangleName(namedImportSpec.name, importSpec.module);
+                    const mangledName = mangleNamedIdentifier(namedImportSpec.name, importSpec.module);
                     mangledImportSpec.namedImports.push({
                         name: namedImportSpec.name,
                         alias: mangledName
