@@ -1,6 +1,6 @@
 {
   "name": "@mintsourcejs/mdxjs-code-plugin",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "./dist/index.js",
   "type": "module",
   "description": "A plugin for @mdx-js/mdx@2.x to add underlying data/functionality to MDX documents required to support a live code editing implementation.",
@@ -30,7 +30,7 @@
     "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest src"
   },
   "dependencies": {
-    "@mintsourcejs/mdxjs-common": "^0.2.0",
+    "@mintsourcejs/mdxjs-common": "^0.3.0",
     "acorn": "^8.11.2",
     "mdast-util-from-markdown": "^2.0.0",
     "mdast-util-mdx-jsx": "^3.0.0",
