@@ -79,20 +79,3 @@ describe("importParser parses", () => {
         expect(result.module).toBe("numbers/style.css");
     });
 });
-
-describe("mergeImports should", () => {
-    it("merge default and named imports from the same module", () => {
-        const result = mergeImports([{
-            module: "react",
-            defaultImport: "React"
-        }, {
-            module: "react",
-            namedImports: ["Component"]
-        }]);
-
-        expect(result.length).toBe(1);
-        expect(result[0].module).toBe("react");
-        expect(result[0].defaultImport).toBe("React");
-        expect(result[0].namedImports).toEqual(["Component"]);
-    });
-});

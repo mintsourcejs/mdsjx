@@ -1,3 +1,7 @@
+## v0.3.0
+
+* Fixed problem with merging named imports with identical aliases
+
 ## v0.2.0
 
 * support for aliases on named imports
