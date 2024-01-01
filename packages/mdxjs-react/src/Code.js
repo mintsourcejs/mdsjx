@@ -5,9 +5,9 @@ import React, { useMemo } from "react";
 import { CodeLive } from "./CodeLive.js";
 import { parseMeta } from "./parseMeta.js";
 
-export const Code = ({ children, className, language, theme, ...props }) => {
-    const meta = useMemo(() => parseMeta(props["data-meta"]), [props["data-meta"]]);
-    const scope = useMemo(() => JSON.parse(props["data-scope"]), [props["data-scope"]]);
+export const Code = ({ children, className, language, theme, ["data-meta"]: dataMeta, ["data-scope"]: dataScope, ...props }) => {
+    const meta = useMemo(() => parseMeta(dataMeta), [dataMeta]);
+    const scope = useMemo(() => dataScope && JSON.parse(dataScope), [dataScope]);
     
     // no language specified? extract one from the className if possible.
     language || (language = className?.substr('language-'.length));
