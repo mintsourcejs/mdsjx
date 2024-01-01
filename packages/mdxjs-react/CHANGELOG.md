@@ -1,3 +1,7 @@
+## v0.3.1
+
+* inline code blocks no-longer fail
+
 ## v0.3.0
 
 * isolated scopes for live code blocks
