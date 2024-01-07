@@ -3,8 +3,8 @@
 }
 
 .heading .link {
-    margin-left: -1.5rem;
-    padding-right: 0.4rem;
+    margin-left: -1.25rem;
+    padding-right: 0.25rem;
     position: absolute;
     visibility: hidden;
 
@@ -14,6 +14,6 @@
     }
 }
 
-.header:hover .link {
+.heading:hover .link {
     visibility: visible;
 }
