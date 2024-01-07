@@ -7,7 +7,7 @@ import styles from "./Heading.module.css";
 export const Heading = ({ children, id, tag: Tag }) => {
     return (
         <Tag id={id} className={styles.heading}>
-            {id ? <a className={styles.link} aria-hidden="true" tabIndex="-1" href={`#${id}`}><LinkIcon /></a> : null}
+            {id ? <a className={styles.link} aria-hidden="true" tabIndex="0" href={`#${id}`}><LinkIcon /></a> : null}
             {children}
         </Tag>
     );

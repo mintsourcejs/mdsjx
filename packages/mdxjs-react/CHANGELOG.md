@@ -1,3 +1,10 @@
+## v0.3.2
+
+* Fixed style issue where heading link was not displayed
+* Added CSS transition when headling link is shown/hidden
+* Improved focus styles so the outline does not look awful
+* Headling links can now be tabbed to
+
 ## v0.3.1
 
 * inline code blocks no-longer fail
