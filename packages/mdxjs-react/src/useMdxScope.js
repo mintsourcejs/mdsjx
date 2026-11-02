@@ -1,5 +1,5 @@
 import { useContext, useMemo } from "react";
-import { MdxScopeContext } from "./MdxScopeContext";
+import { MdxScopeContext } from "./MdxScopeContext.js";
 
 export function useMdxScope(scopeMapping) {
     const globalScope = useContext(MdxScopeContext);

@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { mangleNamedIdentifier } from "./mangleName.js";
 
 describe("mangleNamedIdentifier should", () => {

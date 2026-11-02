@@ -9,7 +9,7 @@ import { useMdxScope } from "./useMdxScope.js";
 
 import styles from "./CodeLive.module.css";
 
-export const CodeLive = ({ className, code, language, live, noInline, scopeMapping, theme }) => {
+export const CodeLive = ({ code, noInline, scopeMapping, theme }) => {
     const scope = useMdxScope(scopeMapping);
 
     const imports = useMemo(() => extractImports(code), [code]);
@@ -37,12 +37,13 @@ export const CodeLive = ({ className, code, language, live, noInline, scopeMappi
 };
 
 CodeLive.propTypes = {
-    language: PropTypes.string,
-    scope: PropTypes.array,
+    code: PropTypes.string.isRequired,
+    noInline: PropTypes.bool,
+    scopeMapping: PropTypes.objectOf(PropTypes.string),
     theme: PropTypes.object
 };
 
 CodeLive.defaultProps = {
-    scope: [],
+    scopeMapping: {},
     theme: themes.vsDark
 };

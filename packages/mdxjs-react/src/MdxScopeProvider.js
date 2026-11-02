@@ -12,5 +12,6 @@ export const MdxScopeProvider = ({ children, value }) => {
 };
 
 MdxScopeProvider.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    value: PropTypes.object
 };

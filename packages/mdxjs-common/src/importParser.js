@@ -6,7 +6,7 @@
  * @return {Object} the parsed import statement or null.
  */
 export function importParser(statement) {
-    const defaultImport = statement.match(/^import\s+([^\{][^\s,]*)\s+from\s+["']([^"']*)["'];?$/);
+    const defaultImport = statement.match(/^import\s+([^{][^\s,]*)\s+from\s+["']([^"']*)["'];?$/);
     if (defaultImport) {
         return {defaultImport: defaultImport[1], module: defaultImport[2]};
     }
@@ -19,13 +19,13 @@ export function importParser(statement) {
         return { name: namedImport };
     }
 
-    const imports = statement.match(/^import\s+([^\{][^\s,]*)\s*,\s*\{([^\}]*)\}\s+from\s+["'](.*)["'];?$/);
+    const imports = statement.match(/^import\s+([^{][^\s,]*)\s*,\s*\{([^}]*)\}\s+from\s+["'](.*)["'];?$/);
     if (imports) {
         const namedImports = imports[2].trim().split(/\s*,\s*/).map(processNamedImport);
         return {defaultImport: imports[1], namedImports, module: imports[3]};
     }
 
-    const namedImports = statement.match(/^import\s+\{([^\}]*)\}\s+from\s+["'](.*)["'];?$/);
+    const namedImports = statement.match(/^import\s+\{([^}]*)\}\s+from\s+["'](.*)["'];?$/);
     if (namedImports) {
         namedImports[1] = namedImports[1].trim().split(/\s*,\s*/).map(processNamedImport);
         return {namedImports: namedImports[1], module: namedImports[2]};

@@ -5,8 +5,8 @@ export function mangleDefaultIdentifier(module) {
 
 export function mangleModuleName(module) {
     return module
-        .replaceAll(/([@\-\.\/])/g, (match, c) => {            
-            return `\$${c.charCodeAt(0)}\$`;
+        .replaceAll(/([@\-./])/g, (match, c) => {            
+            return `$${c.charCodeAt(0)}$`;
         });
 }
 

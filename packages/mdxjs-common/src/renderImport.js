@@ -28,4 +28,4 @@ export function renderImport(importSpec) {
     result+= `"${importSpec.module}";`;
 
     return result;
-};
+}

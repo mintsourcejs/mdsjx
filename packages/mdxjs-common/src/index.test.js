@@ -1,4 +1,5 @@
-import { extractImports, importParser, mergeImports } from "./index.js";
+import { describe, expect, it } from "vitest";
+import { extractImports, importParser } from "./index.js";
 
 describe("extract imports", () => {
     it("should extract an import", () => {

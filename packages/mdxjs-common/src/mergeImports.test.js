@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { mergeImports } from "./mergeImports";
 
 describe("mergeImports should", () => {

@@ -17,10 +17,13 @@ export const IconBase = React.forwardRef(({ children, className, inline, spin, .
     );
 });
 
+IconBase.displayName = "IconBase";
+
 IconBase.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
-    inline: PropTypes.bool
+    inline: PropTypes.bool,
+    spin: PropTypes.bool
 };
 
 IconBase.defaultProps = {

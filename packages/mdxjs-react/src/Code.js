@@ -5,7 +5,7 @@ import React, { useMemo } from "react";
 import { CodeLive } from "./CodeLive.js";
 import { parseMeta } from "./parseMeta.js";
 
-export const Code = ({ children, className, language, theme, ["data-meta"]: dataMeta, ["data-scope"]: dataScope, ...props }) => {
+export const Code = ({ children, className, language, theme, ["data-meta"]: dataMeta, ["data-scope"]: dataScope }) => {
     const meta = useMemo(() => parseMeta(dataMeta), [dataMeta]);
     const scope = useMemo(() => dataScope && JSON.parse(dataScope), [dataScope]);
     
@@ -27,9 +27,9 @@ export const Code = ({ children, className, language, theme, ["data-meta"]: data
             {({ className, style, tokens, getLineProps, getTokenProps }) => (
                 <pre className={className} style={{...style, padding: "10px"}}>
                     {tokens.map((line, i) => (
-                        <div {...getLineProps({ line, key: i })}>
+                        <div key={i} {...getLineProps({ line })}>
                             {line.map((token, key) => (
-                                <span {...getTokenProps({ token, key })} />
+                                <span key={key} {...getTokenProps({ token })} />
                             ))}
                         </div>
                     ))}
