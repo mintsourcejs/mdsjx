@@ -68,5 +68,39 @@ describe("mergeImports should", () => {
         }];
 
         expect(mergeImports(imports)).toEqual(expected);
-    });        
+    });
+
+    it("keep the same named import under different aliases", () => {
+        const imports = [{
+            namedImports: [{ name: "TestA", alias: "AliasX" }],
+            module: "module"
+        }, {
+            namedImports: [{ name: "TestA", alias: "AliasY" }, { name: "TestA" }],
+            module: "module"
+        }];
+
+        const expected = [{
+            namedImports: [{ name: "TestA", alias: "AliasX" }, { name: "TestA", alias: "AliasY" }, { name: "TestA" }],
+            module: "module"
+        }];
+
+        expect(mergeImports(imports)).toEqual(expected);
+    });
+
+    it("keep an unaliased string import alongside an aliased one", () => {
+        const imports = [{
+            namedImports: [{ name: "TestA", alias: "AliasX" }],
+            module: "module"
+        }, {
+            namedImports: ["TestA"],
+            module: "module"
+        }];
+
+        const expected = [{
+            namedImports: [{ name: "TestA", alias: "AliasX" }, { name: "TestA" }],
+            module: "module"
+        }];
+
+        expect(mergeImports(imports)).toEqual(expected);
+    });
 });

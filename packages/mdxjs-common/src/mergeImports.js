@@ -18,11 +18,11 @@ export function mergeImports(importSpecs) {
             module.namedImports || (module.namedImports = []);
             for (const namedImport of statement.namedImports) {
                 if (typeof namedImport === "object") {
-                    if (!module.namedImports.find(namedImportSpec => namedImportSpec.name === namedImport.name && namedImportSpec.alias === namedImportSpec.alias)) {
+                    if (!module.namedImports.find(namedImportSpec => namedImportSpec.name === namedImport.name && namedImportSpec.alias === namedImport.alias)) {
                         module.namedImports.push(namedImport);
                     }
                 } else {
-                    if (!module.namedImports.find(namedImportSpec => namedImportSpec.name === namedImport)) {
+                    if (!module.namedImports.find(namedImportSpec => namedImportSpec.name === namedImport && !namedImportSpec.alias)) {
                         module.namedImports.push({ name: namedImport });
                     }    
                 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { IconBase } from "./IconBase";
+import { IconBase } from "./IconBase.js";
 
 export const LinkIcon = (props) => (
     <IconBase viewBox="0 0 32 32" {...props}>

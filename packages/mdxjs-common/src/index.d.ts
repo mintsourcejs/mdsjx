@@ -5,14 +5,14 @@ export interface NamedImportSpec {
 
 export interface ImportSpec {
     defaultImport?: string;
-    namedImport?: NamedImportSpec[];
+    namedImports?: NamedImportSpec[];
     module: string;
 }
 
 
 export function extractImports(code: string): ImportSpec[];
 
-export function importParser(statment: string): ImportSpec;
+export function importParser(statement: string): ImportSpec;
 
 export function mergeImports(importSpecs: ImportSpec[]): ImportSpec[];
 

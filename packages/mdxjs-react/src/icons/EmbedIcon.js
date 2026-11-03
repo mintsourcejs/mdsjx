@@ -1,5 +1,5 @@
 import React from "react";
-import { IconBase } from "./IconBase";
+import { IconBase } from "./IconBase.js";
 
 export const EmbedIcon = (props) => (
     <IconBase viewBox="0 0 40 32" {...props}>
