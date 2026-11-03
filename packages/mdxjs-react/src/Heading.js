@@ -4,7 +4,7 @@ import { LinkIcon } from "./icons/LinkIcon.js";
 
 import styles from "./Heading.module.css";
 
-export const Heading = ({ children, id, tag: Tag }) => {
+export const Heading = ({ children, id, tag: Tag = "h1" }) => {
     return (
         <Tag id={id} className={styles.heading}>
             {id ? <a className={styles.link} aria-hidden="true" tabIndex="0" href={`#${id}`}><LinkIcon /></a> : null}
@@ -17,8 +17,4 @@ Heading.propTypes = {
     children: PropTypes.node,
     id: PropTypes.string,
     tag: PropTypes.string
-};
-
-Heading.defaultProps = {
-    tag: "h1"
 };

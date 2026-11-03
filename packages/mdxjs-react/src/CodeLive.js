@@ -9,7 +9,7 @@ import { useMdxScope } from "./useMdxScope.js";
 
 import styles from "./CodeLive.module.css";
 
-export const CodeLive = ({ code, noInline, scopeMapping, theme }) => {
+export const CodeLive = ({ code, noInline, scopeMapping, theme = themes.vsDark }) => {
     const scope = useMdxScope(scopeMapping);
 
     const imports = useMemo(() => extractImports(code), [code]);
@@ -41,9 +41,4 @@ CodeLive.propTypes = {
     noInline: PropTypes.bool,
     scopeMapping: PropTypes.objectOf(PropTypes.string),
     theme: PropTypes.object
-};
-
-CodeLive.defaultProps = {
-    scopeMapping: {},
-    theme: themes.vsDark
 };

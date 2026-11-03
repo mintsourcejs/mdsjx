@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styles from "./Icon.module.css";
 
-export const IconBase = React.forwardRef(({ children, className, inline, spin, ...props }, ref) => {
+export const IconBase = React.forwardRef(({ children, className, inline = true, spin, ...props }, ref) => {
     const Tag = inline ? "svg" : "symbol";
 
     const classes = classnames(styles.icon, {
@@ -24,8 +24,4 @@ IconBase.propTypes = {
     className: PropTypes.string,
     inline: PropTypes.bool,
     spin: PropTypes.bool
-};
-
-IconBase.defaultProps = {
-    inline: true
 };

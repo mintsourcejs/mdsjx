@@ -5,7 +5,7 @@ import React, { useMemo } from "react";
 import { CodeLive } from "./CodeLive.js";
 import { parseMeta } from "./parseMeta.js";
 
-export const Code = ({ children, className, language, theme, ["data-meta"]: dataMeta, ["data-scope"]: dataScope }) => {
+export const Code = ({ children, className, language, theme = themes.vsDark, ["data-meta"]: dataMeta, ["data-scope"]: dataScope }) => {
     const meta = useMemo(() => parseMeta(dataMeta), [dataMeta]);
     const scope = useMemo(() => dataScope && JSON.parse(dataScope), [dataScope]);
     
@@ -44,8 +44,4 @@ Code.propTypes = {
     className: PropTypes.string,
     language: PropTypes.string,
     theme: PropTypes.object
-};
-
-Code.defaultProps = {
-    theme: themes.vsDark
 };
