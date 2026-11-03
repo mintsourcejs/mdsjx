@@ -32,7 +32,7 @@ export default defineConfig([
             globals: globals.browser,
         },
         settings: {
-            react: { version: "18.3" },
+            react: { version: "detect" },
         },
         rules: {
             "react-hooks/rules-of-hooks": "error",
