@@ -1,4 +1,6 @@
-export function renderImport(importSpec) {
+import type { ImportSpecInput } from "./types.js";
+
+export function renderImport(importSpec: ImportSpecInput): string {
     let result = "import ";
 
     if (importSpec.defaultImport) {

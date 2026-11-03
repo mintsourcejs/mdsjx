@@ -1,0 +1,12 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "rootDir": "src",
+        "outDir": "dist",
+        "tsBuildInfoFile": "dist/.tsbuildinfo",
+        "lib": ["ES2022", "DOM", "DOM.Iterable"],
+        "jsx": "react"
+    },
+    "include": ["src"],
+    "references": [{ "path": "../mdxjs-common" }]
+}

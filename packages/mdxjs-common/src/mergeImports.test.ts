@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { mergeImports } from "./mergeImports";
+import { mergeImports } from "./mergeImports.js";
 
 describe("mergeImports should", () => {
     it("merged defaultImport", () => {

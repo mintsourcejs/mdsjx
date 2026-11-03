@@ -1,16 +1,26 @@
-import { Highlight } from "prism-react-renderer";
-import { themes } from "prism-react-renderer";
-import PropTypes from "prop-types";
+import { Highlight, themes, type PrismTheme } from "prism-react-renderer";
 import React, { useMemo } from "react";
 import { CodeLive } from "./CodeLive.js";
 import { parseMeta } from "./parseMeta.js";
+import type { ScopeMapping } from "./useMdxScope.js";
 
-export const Code = ({ children, className, language, theme = themes.vsDark, ["data-meta"]: dataMeta, ["data-scope"]: dataScope }) => {
+export interface CodeProps {
+    children: string;
+    className?: string;
+    language?: string;
+    theme?: PrismTheme;
+    /** the code block's meta string, added by `@mintsourcejs/mdxjs-code-plugin`. */
+    "data-meta"?: string;
+    /** the code block's scope mapping as JSON, added by `@mintsourcejs/mdxjs-code-plugin`. */
+    "data-scope"?: string;
+}
+
+export const Code = ({ children, className, language, theme = themes.vsDark, ["data-meta"]: dataMeta, ["data-scope"]: dataScope }: CodeProps) => {
     const meta = useMemo(() => parseMeta(dataMeta), [dataMeta]);
-    const scope = useMemo(() => dataScope && JSON.parse(dataScope), [dataScope]);
+    const scope = useMemo(() => dataScope ? JSON.parse(dataScope) as ScopeMapping : undefined, [dataScope]);
     
     // no language specified? extract one from the className if possible.
-    language || (language = className?.substr('language-'.length));
+    language ||= className?.substr('language-'.length);
 
     const code = children.replace(/(\s+)$/, '');
 
@@ -19,7 +29,7 @@ export const Code = ({ children, className, language, theme = themes.vsDark, ["d
     }
 
     if (meta.live) {
-        return <CodeLive {...meta} className={className} code={code} language={language} scopeMapping={scope} />;
+        return <CodeLive code={code} noInline={!!meta.noInline} scopeMapping={scope} />;
     }
 
     return (
@@ -37,11 +47,4 @@ export const Code = ({ children, className, language, theme = themes.vsDark, ["d
             )}
         </Highlight>
     );
-};
-
-Code.propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    language: PropTypes.string,
-    theme: PropTypes.object
 };

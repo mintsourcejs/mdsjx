@@ -1,0 +1,8 @@
+{
+    "files": [],
+    "references": [
+        { "path": "packages/mdxjs-common" },
+        { "path": "packages/mdxjs-code-plugin" },
+        { "path": "packages/mdxjs-react" }
+    ]
+}

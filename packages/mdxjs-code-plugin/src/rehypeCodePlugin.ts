@@ -1,25 +1,30 @@
-import { mergeImports, renderImport } from "@mintsourcejs/mdxjs-common";
+import { mergeImports, renderImport, type ImportSpec } from "@mintsourcejs/mdxjs-common";
+import type { ElementContent, Root } from "hast";
 import { mangleDefaultIdentifier, mangleNamedIdentifier } from "./mangleName.js";
 import { processCodeElements } from "./processCodeElements.js";
 import { createMdxjsEsmNode, createMdxJsxFlowElement } from "./rehypeUtils.js";
 
+export interface RehypeCodePluginOptions {
+    /** provide code meta data to the component as `data-meta` prop. */
+    meta?: boolean;
+}
+
 /**
  * Plugin to collect imports from the whole document and stuff them into a provider.
  * 
- * @param {Object} [opts] the configuration options.
- *   @param {boolean} [opts.meta] provide code meta data to the component as `data-meta` prop. 
+ * @param opts the configuration options.
  */
-export function rehypeCodePlugin(opts) {
+export function rehypeCodePlugin(opts?: RehypeCodePluginOptions): () => (tree: Root) => void {
     opts = { ...opts };
     return () => {
-        return tree => {
+        return (tree: Root) => {
             const codeImportSpecs = processCodeElements(tree, { meta: opts.meta });
 
             // deduplicate imports extracted from ALL code elements.
             const mergedCodeImportSpecs = mergeImports(codeImportSpecs);
 
             const { mangledImportSpecs, mangledIdentifiers } = mergedCodeImportSpecs.reduce((result, importSpec) => {
-                const mangledImportSpec = {
+                const mangledImportSpec: ImportSpec = {
                     defaultImport: importSpec.defaultImport && mangleDefaultIdentifier(importSpec.module),
                     namedImports: importSpec.namedImports && [],
                     module: importSpec.module
@@ -31,7 +36,7 @@ export function rehypeCodePlugin(opts) {
                 
                 importSpec.namedImports?.forEach(namedImportSpec => {                 
                     const mangledName = mangleNamedIdentifier(namedImportSpec.name, importSpec.module);
-                    mangledImportSpec.namedImports.push({
+                    mangledImportSpec.namedImports?.push({
                         name: namedImportSpec.name,
                         alias: mangledName
                     });
@@ -40,7 +45,7 @@ export function rehypeCodePlugin(opts) {
                 result.mangledImportSpecs.push(mangledImportSpec);
 
                 return result;
-            }, {mangledImportSpecs: [], mangledIdentifiers: []});
+            }, {mangledImportSpecs: [] as ImportSpec[], mangledIdentifiers: [] as string[]});
 
             // generate the source code for the import statements from our deduped list.   
             const importSrc = [{ module: "@mintsourcejs/mdxjs-react", namedImports: ["MdxScopeProvider"] }, ...mangledImportSpecs]
@@ -56,7 +61,8 @@ export function rehypeCodePlugin(opts) {
             const index = tree.children.findIndex(node => node.type !== "mdxjsEsm");
 
             const body = tree.children.splice(index, tree.children.length, importsNode, scopeProvider);
-            scopeProvider.children.push(...body);
+            // an MDX document's body never contains a doctype, the one root node that can't be an element child.
+            scopeProvider.children.push(...body as ElementContent[]);
         }
     }
 }

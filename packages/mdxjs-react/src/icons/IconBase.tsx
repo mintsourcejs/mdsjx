@@ -1,9 +1,14 @@
 import classnames from "classnames";
-import PropTypes from "prop-types";
-import React from "react";
+import React, { type SVGAttributes } from "react";
 import styles from "./Icon.module.css";
 
-export const IconBase = React.forwardRef(({ children, className, inline = true, spin, ...props }, ref) => {
+export interface IconBaseProps extends SVGAttributes<SVGElement> {
+    /** render as an inline `svg` rather than a `symbol`. */
+    inline?: boolean;
+    spin?: boolean;
+}
+
+export const IconBase = React.forwardRef<SVGSVGElement, IconBaseProps>(({ children, className, inline = true, spin, ...props }, ref) => {
     const Tag = inline ? "svg" : "symbol";
 
     const classes = classnames(styles.icon, {
@@ -18,10 +23,3 @@ export const IconBase = React.forwardRef(({ children, className, inline = true, 
 });
 
 IconBase.displayName = "IconBase";
-
-IconBase.propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    inline: PropTypes.bool,
-    spin: PropTypes.bool
-};

@@ -1,11 +1,12 @@
 {
   "name": "@mintsourcejs/mdxjs-common",
   "version": "0.3.0",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "src",
-    "!src/**/*.test.js"
+    "dist",
+    "!dist/**/*.test.*",
+    "!dist/.tsbuildinfo"
   ],
   "type": "module",
   "license": "MIT",
@@ -21,6 +22,8 @@
     "url": "https://github.com/mintsourcejs/mdsjx/issues"
   },
   "scripts": {
+    "build": "tsc -b",
+    "dev": "tsc -b --watch",
     "test": "vitest run --dir src"
   },
   "devDependencies": {

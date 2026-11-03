@@ -1,7 +1,7 @@
 import React from "react";
-import { IconBase } from "./IconBase.js";
+import { IconBase, type IconBaseProps } from "./IconBase.js";
 
-export const EmbedIcon = (props) => (
+export const EmbedIcon = (props: IconBaseProps) => (
     <IconBase viewBox="0 0 40 32" {...props}>
         <path d="M26 23l3 3 10-10-10-10-3 3 7 7z"></path>
         <path d="M14 9l-3-3-10 10 10 10 3-3-7-7z"></path>

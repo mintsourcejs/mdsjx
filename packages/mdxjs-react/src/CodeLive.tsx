@@ -1,15 +1,21 @@
 import { extractImports } from "@mintsourcejs/mdxjs-common";
 import classnames from "classnames";
-import { themes } from "prism-react-renderer";
-import PropTypes from "prop-types";
+import { themes, type PrismTheme } from "prism-react-renderer";
 import React, { useMemo, useState } from "react";
 import { LiveEditor, LiveError, LivePreview, LiveProvider } from "react-live";
 import { EmbedIcon } from "./icons/EmbedIcon.js";
-import { useMdxScope } from "./useMdxScope.js";
+import { useMdxScope, type ScopeMapping } from "./useMdxScope.js";
 
 import styles from "./CodeLive.module.css";
 
-export const CodeLive = ({ code, noInline, scopeMapping, theme = themes.vsDark }) => {
+export interface CodeLiveProps {
+    code: string;
+    noInline?: boolean;
+    scopeMapping?: ScopeMapping | null;
+    theme?: PrismTheme;
+}
+
+export const CodeLive = ({ code, noInline, scopeMapping, theme = themes.vsDark }: CodeLiveProps) => {
     const scope = useMdxScope(scopeMapping);
 
     const imports = useMemo(() => extractImports(code), [code]);
@@ -34,11 +40,4 @@ export const CodeLive = ({ code, noInline, scopeMapping, theme = themes.vsDark }
             </div>
         </LiveProvider>
     );    
-};
-
-CodeLive.propTypes = {
-    code: PropTypes.string.isRequired,
-    noInline: PropTypes.bool,
-    scopeMapping: PropTypes.objectOf(PropTypes.string),
-    theme: PropTypes.object
 };

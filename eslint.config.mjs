@@ -4,11 +4,17 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import { defineConfig, globalIgnores } from "eslint/config";
 import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default defineConfig([
     globalIgnores(["**/dist/"]),
 
     js.configs.recommended,
+
+    {
+        files: ["packages/*/src/**/*.{ts,tsx}"],
+        extends: [tseslint.configs.recommended],
+    },
 
     // node: build scripts, config files and the non-react packages
     {
@@ -25,7 +31,7 @@ export default defineConfig([
     },
 
     {
-        files: ["packages/mdxjs-react/src/**/*.js"],
+        files: ["packages/mdxjs-react/src/**/*.{ts,tsx}"],
         extends: [react.configs.flat.recommended],
         plugins: { "react-hooks": reactHooks },
         languageOptions: {
@@ -37,6 +43,8 @@ export default defineConfig([
         rules: {
             "react-hooks/rules-of-hooks": "error",
             "react-hooks/exhaustive-deps": "warn",
+            // props are checked by TypeScript.
+            "react/prop-types": "off",
         },
     },
 

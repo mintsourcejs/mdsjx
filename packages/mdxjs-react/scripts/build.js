@@ -1,32 +1,25 @@
-import * as esbuild from "esbuild";
+import { spawn } from "node:child_process";
 import { cp, watch } from "node:fs/promises";
+import { createRequire } from "node:module";
 
-// Transpile each source file individually (no bundling) so dist mirrors src.
-const options = {
-    entryPoints: ["src/**/*.js"],
-    outbase: "src",
-    outdir: "dist",
-    format: "esm",
-    sourcemap: true,
-    jsx: "transform",
-    loader: { ".js": "jsx" },
-    logLevel: "info",
-};
+const watchMode = process.argv.includes("--watch");
 
-// CSS modules are copied as-is for the consumer's bundler to process. esbuild's
-// copy loader renames *.module.css, so this is done outside of esbuild.
+// CSS modules are copied as-is for the consumer's bundler to process.
 const copyCss = () => cp("src", "dist", {
     recursive: true,
-    filter: (src) => !src.endsWith(".js"),
+    filter: (src) => !/\.tsx?$/.test(src),
 });
 
-if (process.argv.includes("--watch")) {
-    const ctx = await esbuild.context(options);
-    await copyCss();
-    await ctx.watch();
+const tscBin = createRequire(import.meta.url).resolve("typescript/bin/tsc");
+const tscArgs = watchMode ? ["-b", "--watch", "--preserveWatchOutput"] : ["-b"];
+const tsc = spawn(process.execPath, [tscBin, ...tscArgs], { stdio: "inherit" });
+
+await copyCss();
+
+if (watchMode) {
     for await (const { filename } of watch("src", { recursive: true })) {
         if (filename?.endsWith(".css")) await copyCss();
     }
 } else {
-    await Promise.all([esbuild.build(options), copyCss()]);
+    tsc.on("exit", (code) => process.exit(code ?? 1));
 }

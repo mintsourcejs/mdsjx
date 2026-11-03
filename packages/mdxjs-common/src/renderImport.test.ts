@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { renderImport } from "./renderImport";
+import { renderImport } from "./renderImport.js";
 
 describe("renderImport should", () => {
     it("render namedImports", () => {

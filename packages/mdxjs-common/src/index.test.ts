@@ -35,9 +35,9 @@ describe("extract imports", () => {
 describe("importParser parses", () => {
     it("only default import", () => {
         const result = importParser("import Numbers from 'numbers';");
-        expect(result.module).toBe("numbers");
-        expect(result.defaultImport).toBe("Numbers");
-        expect(result.namedImports).toBe(undefined);            
+        expect(result?.module).toBe("numbers");
+        expect(result?.defaultImport).toBe("Numbers");
+        expect(result?.namedImports).toBe(undefined);            
     });
 
     it("only named imports", () => {
@@ -77,6 +77,6 @@ describe("importParser parses", () => {
 
     it("files", () => {
         const result = importParser("import 'numbers/style.css';");
-        expect(result.module).toBe("numbers/style.css");
+        expect(result?.module).toBe("numbers/style.css");
     });
 });
