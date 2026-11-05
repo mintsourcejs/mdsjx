@@ -1,5 +1,6 @@
 import { mergeImports, renderImport, type ImportSpec } from "@mintsourcejs/mdxjs-common";
 import type { ElementContent, Root } from "hast";
+import rehypeSlug, { type Options as SlugOptions } from "rehype-slug";
 import { mangleDefaultIdentifier, mangleNamedIdentifier } from "./mangleName.js";
 import { processCodeElements } from "./processCodeElements.js";
 import { createMdxjsEsmNode, createMdxJsxFlowElement } from "./rehypeUtils.js";
@@ -7,6 +8,11 @@ import { createMdxjsEsmNode, createMdxJsxFlowElement } from "./rehypeUtils.js";
 export interface RehypeCodePluginOptions {
     /** provide code meta data to the component as `data-meta` prop. */
     meta?: boolean;
+    /**
+     * add an `id` to each heading, slugged from its text (default `true`). Headings that already have an `id` are
+     * left alone. Pass `rehype-slug` options to configure it, e.g. `{ prefix: "doc-" }`.
+     */
+    slug?: boolean | SlugOptions;
 }
 
 /**
@@ -18,6 +24,10 @@ export function rehypeCodePlugin(opts?: RehypeCodePluginOptions): () => (tree: R
     opts = { ...opts };
     return () => {
         return (tree: Root) => {
+            if (opts.slug !== false) {
+                rehypeSlug(typeof opts.slug === "object" ? opts.slug : undefined)(tree);
+            }
+
             const codeImportSpecs = processCodeElements(tree, { meta: opts.meta });
 
             // deduplicate imports extracted from ALL code elements.

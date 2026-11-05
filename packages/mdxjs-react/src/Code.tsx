@@ -1,11 +1,12 @@
 import { Highlight, themes, type PrismTheme } from "prism-react-renderer";
-import React, { useMemo } from "react";
+import React, { useMemo, type ReactNode } from "react";
 import { CodeLive } from "./CodeLive.js";
+import { nodeToText } from "./nodeToText.js";
 import { parseMeta } from "./parseMeta.js";
 import type { ScopeMapping } from "./useMdxScope.js";
 
 export interface CodeProps {
-    children: string;
+    children?: ReactNode;
     className?: string;
     language?: string;
     theme?: PrismTheme;
@@ -22,7 +23,7 @@ export const Code = ({ children, className, language, theme = themes.vsDark, ["d
     // no language specified? extract one from the className if possible.
     language ||= className?.substr('language-'.length);
 
-    const code = children.replace(/(\s+)$/, '');
+    const code = nodeToText(children).replace(/(\s+)$/, '');
 
     if (!language) {
         return <code>{code}</code>;

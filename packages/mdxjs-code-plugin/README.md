@@ -9,6 +9,7 @@ Here is a list of its major functions.
 * Add a `data-meta` property, allowing access to the meta string supported by markdown for code. (by default, mdx ignores this)
 * Add a `data-scope` property with a comma-delimited value of identifiers imported by the code block.
 * Wrap the whole MDX Document with an `MdxScopeProvider` component (by default from `@mintsourcejs/mdxjs-react`) to provide access to any imported modules.
+* Add an `id` to each heading, slugged from its text (using [rehype-slug](https://github.com/rehypejs/rehype-slug)), so headings can be linked to.
 
 ## Usage
 
@@ -54,3 +55,28 @@ import { rehypeCodePlugin } from '@mintsourcejs/mdxjs-code-plugin';
     }]
 }
 ```
+
+## Options
+
+`rehypeCodePlugin(options)` accepts an optional object:
+
+| Option | Default | Description |
+| --- | --- | --- |
+| `meta` | `true` | Add the `data-meta` property to code blocks. |
+| `slug` | `true` | Add an `id` to each heading. Pass `false` to turn this off, or an object of [rehype-slug options](https://github.com/rehypejs/rehype-slug#options), e.g. `{ prefix: "doc-" }`. |
+
+Heading ids are generated from the heading's full text, including any inline code or links. Repeated headings get unique ids (`example`, `example-1`, ...), and headings that already have an `id` are left unchanged.
+
+## Plugin order
+
+The heading ids are added when `rehypeCodePlugin` runs, so any plugin that needs them, such as [rehype-autolink-headings](https://github.com/rehypejs/rehype-autolink-headings) or a table of contents plugin, must come after it:
+
+```js
+rehypePlugins: [
+  rehypeCodePlugin(),
+  rehypeAutolinkHeadings,
+]
+```
+
+You don't need to add `rehype-slug` yourself. If you do, it's harmless: whichever runs second leaves the existing ids alone.
+

@@ -1,22 +1,23 @@
 import React, { type ComponentProps } from "react";
 import { Code } from "./Code.js";
-import { Heading } from "./Heading.js";
+import { Heading, type HeadingProps } from "./Heading.js";
 
 import styles from "./mdxComponents.module.css";
 
-type HeadingComponentProps = Omit<ComponentProps<"h1">, "children"> & { children: string };
+// heading ids are added by `@mintsourcejs/mdxjs-code-plugin`; without one, the heading has no anchor link.
+function heading(tag: NonNullable<HeadingProps["tag"]>) {
+    const Component = ({ children, id }: ComponentProps<typeof tag>) => <Heading id={id} tag={tag}>{children}</Heading>;
+    Component.displayName = tag;
+    return Component;
+}
 
 export const mdxComponents = {
-    h1: ({ children, ...props }: HeadingComponentProps) => {
-        // generate the id from the text given to the heading.
-        const id = children.replace(" ", "_");
-        return <Heading id={id} {...props} tag="h1">{children}</Heading>
-    },
-    h2: ({ children, ...props }: HeadingComponentProps) => {
-        // generate the id from the text given to the heading.
-        const id = children.replace(" ", "_");
-        return <Heading id={id} {...props} tag="h2">{children}</Heading>
-    },
+    h1: heading("h1"),
+    h2: heading("h2"),
+    h3: heading("h3"),
+    h4: heading("h4"),
+    h5: heading("h5"),
+    h6: heading("h6"),
     p: (props: ComponentProps<"div">) => <div {...props} className={styles.p} />,
     code: Code
 };
