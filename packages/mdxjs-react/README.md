@@ -23,7 +23,7 @@ To make things simple, the `@mintsourcejs/mdxjs-react` plugin exports `mdxCompon
 The heading components (`h1` to `h6`) render an anchor link to the heading's `id`. The ids are added by `@mintsourcejs/mdxjs-code-plugin`; a heading without an `id` is rendered without the link.
 
 ## Advanced Usage
-If you want access to modules imported for the code block, you can use the `useMdxScope` hook. Pass it the code block's `data-scope` property, which maps each name imported by the code block to the module in the document's scope. You can use this to write a custom `Code` component if you want to.
+If you want access to modules imported for the code block, you can use the `useMdxScope` hook. Pass it the code block's `data-scope` property, which maps each name imported by the code block to the module in the document's scope. You can use this to write a custom `Code` component if you want to. If it renders `CodeLive`, strip the imports from the code first: the code block's `data-code-start` property is the offset of the code following them.
 
 ```jsx
 export const Code = ({ children, "data-scope": dataScope }) => {

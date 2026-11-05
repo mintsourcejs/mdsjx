@@ -14,9 +14,11 @@ export interface CodeProps {
     "data-meta"?: string;
     /** the code block's scope mapping as JSON, added by `@mintsourcejs/mdxjs-code-plugin`. */
     "data-scope"?: string;
+    /** the offset of the code following the code block's imports, added by `@mintsourcejs/mdxjs-code-plugin`. */
+    "data-code-start"?: string;
 }
 
-export const Code = ({ children, className, language, theme = themes.vsDark, ["data-meta"]: dataMeta, ["data-scope"]: dataScope }: CodeProps) => {
+export const Code = ({ children, className, language, theme = themes.vsDark, ["data-meta"]: dataMeta, ["data-scope"]: dataScope, ["data-code-start"]: dataCodeStart }: CodeProps) => {
     const meta = useMemo(() => parseMeta(dataMeta), [dataMeta]);
     const scope = useMemo(() => dataScope ? JSON.parse(dataScope) as ScopeMapping : undefined, [dataScope]);
     
@@ -30,7 +32,9 @@ export const Code = ({ children, className, language, theme = themes.vsDark, ["d
     }
 
     if (meta.live) {
-        return <CodeLive code={code} noInline={!!meta.noInline} scopeMapping={scope} />;
+        // imports aren't valid in a live code block, they are provided by the scope.
+        const liveCode = code.slice(Number(dataCodeStart ?? 0)).trim();
+        return <CodeLive code={liveCode} noInline={!!meta.noInline} scopeMapping={scope} />;
     }
 
     return (

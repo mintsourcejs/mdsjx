@@ -26,12 +26,11 @@ describe("CodeLive should", () => {
     it("render components imported by the code from the document's scope", async () => {
         const { container } = render(
             <MdxScopeProvider value={{ m_Button: Button }}>
-                <CodeLive code={'import { Button } from "./Button.js";\n\n<Button>click me</Button>'} scopeMapping={{ Button: "m_Button" }} />
+                <CodeLive code="<Button>click me</Button>" scopeMapping={{ Button: "m_Button" }} />
             </MdxScopeProvider>
         );
 
         expect(await preview(container).findByText("click me", { selector: "button.scoped" })).toBeTruthy();
-        expect(container.textContent).not.toContain("import");
     });
 
     it("support noInline code that calls render", async () => {

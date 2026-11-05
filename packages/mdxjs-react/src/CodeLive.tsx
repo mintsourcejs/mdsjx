@@ -1,7 +1,6 @@
-import { extractImports } from "@mintsourcejs/mdxjs-common";
 import classnames from "classnames";
 import { themes, type PrismTheme } from "prism-react-renderer";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { LiveEditor, LiveError, LivePreview, LiveProvider } from "react-live";
 import { EmbedIcon } from "./icons/EmbedIcon.js";
 import { useMdxScope, type ScopeMapping } from "./useMdxScope.js";
@@ -9,6 +8,7 @@ import { useMdxScope, type ScopeMapping } from "./useMdxScope.js";
 import styles from "./CodeLive.module.css";
 
 export interface CodeLiveProps {
+    /** the code to run, which can't include import statements. */
     code: string;
     noInline?: boolean;
     scopeMapping?: ScopeMapping | null;
@@ -18,17 +18,10 @@ export interface CodeLiveProps {
 export const CodeLive = ({ code, noInline, scopeMapping, theme = themes.vsDark }: CodeLiveProps) => {
     const scope = useMdxScope(scopeMapping);
 
-    const imports = useMemo(() => extractImports(code), [code]);
-
-    // if there are any imports, strip them out of the code block.
-    const raw = imports.length > 0 
-        ? code.replace(/import\s+.*?["'][^"']+["'];?/gs, '').trim() 
-        : code;
-
     const [open, setOpen] = useState(false);
 
     return (
-        <LiveProvider code={raw} scope={scope} theme={theme} noInline={noInline}>
+        <LiveProvider code={code} scope={scope} theme={theme} noInline={noInline}>
             <div className={styles.codeLive}>
                 <div className={styles.codeExample}>
                     <LivePreview /><LiveError />

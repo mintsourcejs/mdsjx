@@ -15,6 +15,11 @@ export function mergeImports(importSpecs: ImportSpecInput[]): ImportSpec[] {
             module.defaultImport = statement.defaultImport;
         }
 
+        // only assign namespaceImport if not already assigned.
+        if (statement.namespaceImport && !module.namespaceImport) {
+            module.namespaceImport = statement.namespaceImport;
+        }
+
         // if there are any named imports, merge them.
         if (statement.namedImports) {
             const namedImports = module.namedImports || (module.namedImports = []);

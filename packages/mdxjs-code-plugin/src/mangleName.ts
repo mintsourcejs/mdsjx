@@ -5,12 +5,17 @@ export function mangleDefaultIdentifier(module: string): string {
 
 export function mangleModuleName(module: string): string {
     return module
-        .replaceAll(/([@\-./])/g, (match, c: string) => {            
-            return `$${c.charCodeAt(0)}$`;
+        .replaceAll(/[^\p{ID_Continue}]/gu, c => {
+            return `$${c.codePointAt(0)}$`;
         });
+}
+
+export function mangleNamespaceIdentifier(module: string): string {
+    const mangledModule = mangleModuleName(module);
+    return `namespace_${mangledModule}`;
 }
 
 export function mangleNamedIdentifier(localName: string, module: string): string {
     const mangledModule = mangleModuleName(module);
-    return `_${localName}_${mangledModule}`;
+    return `_${mangleModuleName(localName)}_${mangledModule}`;
 }

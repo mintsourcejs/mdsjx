@@ -12,7 +12,7 @@ export default defineConfig([
     js.configs.recommended,
 
     {
-        files: ["packages/*/src/**/*.{ts,tsx}"],
+        files: ["packages/*/src/**/*.{ts,tsx}", "packages/*/*.config.ts"],
         extends: [tseslint.configs.recommended],
     },
 
@@ -21,7 +21,7 @@ export default defineConfig([
         files: [
             "scripts/**",
             "packages/*/scripts/**",
-            "packages/*/*.config.js",
+            "packages/*/*.config.{js,ts}",
             "packages/mdxjs-common/src/**",
             "packages/mdxjs-code-plugin/src/**",
         ],
@@ -49,7 +49,7 @@ export default defineConfig([
     },
 
     {
-        files: ["packages/example/src/**/*.{js,jsx}"],
+        files: ["packages/example/src/**/*.{ts,tsx}"],
         extends: [
             react.configs.flat.recommended,
             react.configs.flat["jsx-runtime"],

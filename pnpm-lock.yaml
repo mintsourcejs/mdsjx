@@ -221,6 +221,12 @@ importers:
       '@mintsourcejs/mdxjs-common':
         specifier: workspace:^
         version: link:../mdxjs-common
+      '@types/mdx':
+        specifier: ^2.0.14
+        version: 2.0.14
+      '@types/node':
+        specifier: ^26.6.6
+        version: 26.6.6
       '@types/react':
         specifier: ^18.2.37
         version: 18.3.31
@@ -239,6 +245,9 @@ importers:
       '@mintsourcejs/mdxjs-common':
         specifier: workspace:^
         version: link:../mdxjs-common
+      '@sveltejs/acorn-typescript':
+        specifier: ^1.0.13
+        version: 1.0.13(acorn@8.19.0)
       '@types/hast':
         specifier: ^3.0.5
         version: 3.0.5
@@ -282,9 +291,6 @@ importers:
 
   packages/mdxjs-react:
     dependencies:
-      '@mintsourcejs/mdxjs-common':
-        specifier: workspace:^
-        version: link:../mdxjs-common
       classnames:
         specifier: ^2.3.2
         version: 2.5.1
@@ -897,6 +903,11 @@ packages:
     resolution: {integrity: sha512-RJZnrwTWj7Iq2ooBwoGbDdC65tDwYawneGcAfFMJqVUrRZMcskka6nTkBpXR/47G7kzn3EW2qupExnaBy11vwg==}
     cpu: [x64]
     os: [win32]
+
+  '@sveltejs/acorn-typescript@1.0.13':
+    resolution: {integrity: sha512-wgKggnhZVL9Bfx1OaKKTrYY9BFRk6C8UAkQNUcIv1+llzYrIqy+RZm5HPKzn0NpEBvTVhTqB4kQyllZywsRBRQ==}
+    peerDependencies:
+      acorn: ^8.9.0
 
   '@testing-library/dom@10.4.2':
     resolution: {integrity: sha512-yzr2S9HyAIdhz2/6qHgbs665Q7PKVcDF05vsOlHPxG1mo36gKVesdYVeDLnXgfjJ03CrKRk08knc6+E/9m8v2Q==}
@@ -3085,6 +3096,10 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.67.4':
     optional: true
+
+  '@sveltejs/acorn-typescript@1.0.13(acorn@8.19.0)':
+    dependencies:
+      acorn: 8.19.0
 
   '@testing-library/dom@10.4.2':
     dependencies:

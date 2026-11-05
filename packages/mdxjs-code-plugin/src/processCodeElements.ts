@@ -1,7 +1,8 @@
-import { extractImports, type ImportSpec } from "@mintsourcejs/mdxjs-common";
+import type { ImportSpec } from "@mintsourcejs/mdxjs-common";
 import type { Root } from "hast";
 import { visit } from "unist-util-visit";
-import { mangleDefaultIdentifier, mangleNamedIdentifier } from "./mangleName.js";
+import { extractImports } from "./extractImports.js";
+import { mangleDefaultIdentifier, mangleNamedIdentifier, mangleNamespaceIdentifier } from "./mangleName.js";
 
 // added by mdast-util-to-hast when it converts code blocks.
 declare module "hast" {
@@ -9,6 +10,9 @@ declare module "hast" {
         meta?: string | null | undefined;
     }
 }
+
+/** only these languages can have imports, anything else could merely look like an import. */
+const SCRIPT_LANGUAGE = /^language-(?:[cm]?[jt]s|[jt]sx|javascript|typescript)$/;
 
 export interface ProcessCodeElementsOptions {
     /** provide code meta data to the component as `data-meta` prop. */
@@ -27,7 +31,7 @@ export function processCodeElements(tree: Root, opts?: ProcessCodeElementsOption
     // visit each `element` looking for `code` elements. For each one found, add the `data-meta` property to
     // expose the MD meta data to the code element. Extract any `import` statements from the code block. Finally,
     // add the `data-scope` property as a CSV, where each value is the local name of the import used in the 
-    // code block.
+    // code block, and the `data-code-start` property with the offset of the code following the imports.
     visit(tree, "element", (node, index, parent) => {
         if (node.tagName === "code" && node?.data?.meta) {
 
@@ -45,14 +49,23 @@ export function processCodeElements(tree: Root, opts?: ProcessCodeElementsOption
 
             // take the body value of the "code" node and extract any imports from the beginning of it
             const bodyText = node.children.reduce((result, node) => (result + (node.type === "text" ? node.value : "")), "");
-            const importSpecs = extractImports(bodyText);
+            const isScript = [node.properties.className].flat().some(className => SCRIPT_LANGUAGE.test(String(className)));
+            const { imports: importSpecs, end } = isScript ? extractImports(bodyText) : { imports: [], end: 0 };
             allImportSpecs.push(...importSpecs);
+
+            if (end > 0) {
+                node.properties["data-code-start"] = String(end);
+            }
 
             // use the import specifications to generate a CSV value for the named module exports
             // to pass into the "data-scope" attribute on the "code" node.
             const scope = importSpecs.reduce<Record<string, string>>((result, importSpec) => {
                 if (importSpec.defaultImport) {
                     result[importSpec.defaultImport] = mangleDefaultIdentifier(importSpec.module);
+                }
+
+                if (importSpec.namespaceImport) {
+                    result[importSpec.namespaceImport] = mangleNamespaceIdentifier(importSpec.module);
                 }
 
                 if (importSpec.namedImports) {

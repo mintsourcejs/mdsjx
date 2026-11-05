@@ -59,4 +59,18 @@ describe("Code should", () => {
 
         expect(html).toMatch(new RegExp(`^<div class="${codeLiveStyles.codeLive}"`));
     });
+
+    it("strip the imports from a live code block", () => {
+        const code = 'import a from "a";\n<b>"a"</b>';
+        const html = renderToStaticMarkup(<Code className="language-jsx" data-meta="live" data-code-start="18">{code}</Code>);
+
+        expect(html).not.toContain("import");
+    });
+
+    it("keep the imports in a code block that isn't live", () => {
+        const code = 'import a from "a";\n<b>"a"</b>';
+        const html = renderToStaticMarkup(<Code className="language-jsx" data-code-start="18">{code}</Code>);
+
+        expect(html).toContain("import");
+    });
 });

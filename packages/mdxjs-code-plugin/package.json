@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@mintsourcejs/mdxjs-common": "workspace:^",
+    "@sveltejs/acorn-typescript": "^1.0.13",
     "@types/hast": "^3.0.5",
     "acorn": "^8.11.2",
     "mdast-util-from-markdown": "^2.0.0",

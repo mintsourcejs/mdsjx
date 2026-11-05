@@ -87,6 +87,15 @@ describe("mergeImports should", () => {
         expect(mergeImports(imports)).toEqual(expected);
     });
 
+    it("keep the first namespace import of a module", () => {
+        const imports = [
+            { namespaceImport: "NamespaceA", module: "module" },
+            { namespaceImport: "NamespaceB", defaultImport: "Default", module: "module" }
+        ];
+
+        expect(mergeImports(imports)).toEqual([{ namespaceImport: "NamespaceA", defaultImport: "Default", module: "module" }]);
+    });
+
     it("keep an unaliased string import alongside an aliased one", () => {
         const imports = [{
             namedImports: [{ name: "TestA", alias: "AliasX" }],

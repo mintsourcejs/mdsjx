@@ -4,10 +4,11 @@ An mdx-js plugin to support live code editing / preview functionality in MDX doc
 
 Here is a list of its major functions.
 
-* Extract import statements from any code block.
+* Extract the import statements at the top of JavaScript and TypeScript code blocks. Imports that follow other code are not extracted, and type only imports are left out.
 * Combine and include the imports at the top of mdx component.
 * Add a `data-meta` property, allowing access to the meta string supported by markdown for code. (by default, mdx ignores this)
 * Add a `data-scope` property with a comma-delimited value of identifiers imported by the code block.
+* Add a `data-code-start` property with the offset of the code following the imports.
 * Wrap the whole MDX Document with an `MdxScopeProvider` component (by default from `@mintsourcejs/mdxjs-react`) to provide access to any imported modules.
 * Add an `id` to each heading, slugged from its text (using [rehype-slug](https://github.com/rehypejs/rehype-slug)), so headings can be linked to.
 

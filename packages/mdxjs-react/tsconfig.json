@@ -7,6 +7,5 @@
         "lib": ["ES2022", "DOM", "DOM.Iterable"],
         "jsx": "react"
     },
-    "include": ["src"],
-    "references": [{ "path": "../mdxjs-common" }]
+    "include": ["src"]
 }

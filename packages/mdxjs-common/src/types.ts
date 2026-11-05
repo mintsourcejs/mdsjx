@@ -5,6 +5,7 @@ export interface NamedImportSpec {
 
 export interface ImportSpec {
     defaultImport?: string;
+    namespaceImport?: string;
     namedImports?: NamedImportSpec[];
     module: string;
 }
