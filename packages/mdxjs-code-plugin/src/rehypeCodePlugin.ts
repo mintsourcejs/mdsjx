@@ -73,9 +73,11 @@ export function rehypeCodePlugin(opts?: RehypeCodePluginOptions): () => (tree: R
             const valueSrc = `{${mangledIdentifiers.join(",")}}`;
             const scopeProvider = createMdxJsxFlowElement(`<MdxScopeProvider value={${valueSrc}}></MdxScopeProvider>`);
 
-            const index = tree.children.findIndex(node => node.type !== "mdxjsEsm");
+            // the document's own imports and exports stay at the root, everything else goes in the provider.
+            const esmNodes = tree.children.filter(node => node.type === "mdxjsEsm");
+            const body = tree.children.filter(node => node.type !== "mdxjsEsm");
 
-            const body = tree.children.splice(index, tree.children.length, importsNode, scopeProvider);
+            tree.children = [...esmNodes, importsNode, scopeProvider];
             // an MDX document's body never contains a doctype, the one root node that can't be an element child.
             scopeProvider.children.push(...body as ElementContent[]);
         }

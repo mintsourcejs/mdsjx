@@ -36,6 +36,20 @@ async function compileCode(mdx: string) {
     return { code: String(output), properties };
 }
 
+/** compile the MDX and return the type of each node at the root, and those of the provider's children. */
+async function rootNodeTypes(mdx: string) {
+    let root: string[] = [];
+    let provider: string[] = [];
+    const collectTypes: Transformer = () => tree => {
+        root = tree.children.map(node => node.type);
+        const scopeProvider = tree.children.find(node => node.type === "mdxJsxFlowElement");
+        provider = scopeProvider?.children.map(node => node.type) ?? [];
+    };
+
+    await compile(mdx, { rehypePlugins: [rehypeCodePlugin(), collectTypes] });
+    return { root, provider };
+}
+
 describe("rehypeCodePlugin should", () => {
     it("import and scope the imports of a code block", async () => {
         const { code, properties } = await compileCode("```jsx live\nimport D, {a as b} from 'm';\n<D />\n```");
@@ -91,6 +105,28 @@ describe("rehypeCodePlugin should", () => {
         expect(code).not.toContain('from "a"');
         expect(properties[0]?.["data-scope"]).toBe("{}");
         expect(properties[0]).not.toHaveProperty("data-code-start");
+    });
+
+    it("keep the imports of a document out of the provider", async () => {
+        const { root, provider } = await rootNodeTypes("import a from 'a'\n\nimport b from 'b'");
+
+        expect(root).toEqual(["mdxjsEsm", "mdxjsEsm", "mdxjsEsm", "mdxJsxFlowElement"]);
+        expect(provider).not.toContain("mdxjsEsm");
+    });
+
+    it("keep a single import out of the provider", async () => {
+        const { root, provider } = await rootNodeTypes("import a from 'a'");
+
+        expect(root).toEqual(["mdxjsEsm", "mdxjsEsm", "mdxJsxFlowElement"]);
+        expect(provider).not.toContain("mdxjsEsm");
+    });
+
+    it("keep imports separated from each other out of the provider, moving the content into it", async () => {
+        const { root, provider } = await rootNodeTypes("import a from 'a'\n\nimport b from 'b'\n\n# Example");
+
+        expect(root).toEqual(["mdxjsEsm", "mdxjsEsm", "mdxjsEsm", "mdxJsxFlowElement"]);
+        expect(provider).toContain("element");
+        expect(provider).not.toContain("mdxjsEsm");
     });
 
     it("add slugged ids to headings", async () => {
