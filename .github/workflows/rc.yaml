@@ -1,0 +1,28 @@
+name: Publish release candidate to npm registry
+on:
+  push:
+    branches: ["rc/**"]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          registry-url: 'https://registry.npmjs.org'
+          scope: 'mintsourcejs'
+      - name: Setup Corepack
+        run: |
+          npm install -g --force corepack
+          corepack enable
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm test
+      # only versions that aren't on the registry yet are published.
+      - run: pnpm -r publish --no-git-checks --tag next
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

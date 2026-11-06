@@ -1,0 +1,35 @@
+name: Publish Package to npm registry
+on:
+  push:
+    branches: ["main"]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # tagRelease needs the existing tags to tell which versions are new.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          registry-url: 'https://registry.npmjs.org'
+          scope: 'mintsourcejs'
+      - name: Setup Corepack
+        run: |
+          npm install -g --force corepack
+          corepack enable
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm test
+      # only versions that aren't on the registry yet are published.
+      - run: pnpm -r publish --no-git-checks
+      - name: Tag the release
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          node scripts/tagRelease.mjs
+          git push origin --tags
