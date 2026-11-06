@@ -1,3 +1,8 @@
+## v0.4.0
+
+* Now using TypeScript 
+* Switch from jest to vitest
+
 ## v0.3.0
 
 * Fixed problem with merging named imports with identical aliases

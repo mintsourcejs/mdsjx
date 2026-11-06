@@ -1,3 +1,10 @@
+## v0.4.0
+
+* React 19 support
+* Using TypeScript
+* Unit tests
+* Bug fixes
+
 ## v0.3.2
 
 * Fixed style issue where heading link was not displayed
