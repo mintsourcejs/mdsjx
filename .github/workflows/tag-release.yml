@@ -1,0 +1,23 @@
+name: Tag the release
+on:
+  # run this after approving a staged release on npm.
+  workflow_dispatch:
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # tagRelease needs the existing tags to tell which versions are new.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+      - name: Tag the release
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          node scripts/tagRelease.mjs
+          git push origin --tags

@@ -6,13 +6,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
       id-token: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          # tagRelease needs the existing tags to tell which versions are new.
-          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '24.x'
@@ -25,11 +22,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
-      # only versions that aren't on the registry yet are published.
-      - run: pnpm -r publish --no-git-checks
-      - name: Tag the release
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          node scripts/tagRelease.mjs
-          git push origin --tags
+      # only versions that aren't on the registry yet are staged. They go live once approved on npm, after which
+      # the "Tag the release" workflow can be run.
+      - run: pnpm -r stage publish --no-git-checks

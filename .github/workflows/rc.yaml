@@ -22,7 +22,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
-      # only versions that aren't on the registry yet are published.
-      - run: pnpm -r publish --no-git-checks --tag next
+      # only versions that aren't on the registry yet are staged. They go live once approved on npm.
+      - run: pnpm -r stage publish --no-git-checks --tag next
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
