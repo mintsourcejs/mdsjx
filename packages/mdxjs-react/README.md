@@ -34,3 +34,23 @@ export const Code = ({ children, "data-scope": dataScope }) => {
     );
 }
 ```
+
+## Editing
+Live code blocks have a Reset button that discards any edits. In the editor, Tab and Shift+Tab indent and outdent the current line by 2 spaces. Set a different size for one code block with its meta string, or for all of them with the `indent` prop of `Code` or `CodeLive`. An `indent` of 0 leaves Tab moving the focus.
+
+````md
+```jsx live indent=4
+<button>Hello</button>
+```
+````
+
+As Tab indents, Escape leaves the editor: the next Tab moves on to the following control. A hint saying so is shown while the editor has focus.
+
+## Theming
+`Code` and `CodeLive` take a `theme` prop, a [prism-react-renderer](https://github.com/FormidableLabs/prism-react-renderer) theme that defaults to `themes.vsDark`. To use your own, wrap `Code` and pass the result to the `MDXProvider`. The theme's colors can be CSS variables, so that a theme can follow a light / dark toggle without re-rendering.
+
+```jsx
+const ThemedCode = (props) => <Code {...props} theme={myTheme} />;
+
+<MDXProvider components={{ ...mdxComponents, code: ThemedCode }}>
+```

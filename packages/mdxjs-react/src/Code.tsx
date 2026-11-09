@@ -8,6 +8,8 @@ import type { ScopeMapping } from "./useMdxScope.js";
 export interface CodeProps {
     children?: ReactNode;
     className?: string;
+    /** the number of spaces the Tab key indents by in a live code block, unless its meta string has an `indent`. */
+    indent?: number;
     language?: string;
     theme?: PrismTheme;
     /** the code block's meta string, added by `@mintsourcejs/mdxjs-code-plugin`. */
@@ -18,7 +20,7 @@ export interface CodeProps {
     "data-code-start"?: string;
 }
 
-export const Code = ({ children, className, language, theme = themes.vsDark, ["data-meta"]: dataMeta, ["data-scope"]: dataScope, ["data-code-start"]: dataCodeStart }: CodeProps) => {
+export const Code = ({ children, className, indent, language, theme = themes.vsDark, ["data-meta"]: dataMeta, ["data-scope"]: dataScope, ["data-code-start"]: dataCodeStart }: CodeProps) => {
     const meta = useMemo(() => parseMeta(dataMeta), [dataMeta]);
     const scope = useMemo(() => dataScope ? JSON.parse(dataScope) as ScopeMapping : undefined, [dataScope]);
     
@@ -34,7 +36,8 @@ export const Code = ({ children, className, language, theme = themes.vsDark, ["d
     if (meta.live) {
         // imports aren't valid in a live code block, they are provided by the scope.
         const liveCode = code.slice(Number(dataCodeStart ?? 0)).trim();
-        return <CodeLive code={liveCode} noInline={!!meta.noInline} scopeMapping={scope} />;
+        const liveIndent = typeof meta.indent === "string" ? Number(meta.indent) : indent;
+        return <CodeLive code={liveCode} indent={liveIndent} noInline={!!meta.noInline} scopeMapping={scope} theme={theme} />;
     }
 
     return (

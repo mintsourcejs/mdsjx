@@ -1,3 +1,4 @@
+import classnames from "classnames";
 import React, { type ComponentProps } from "react";
 import { Code } from "./Code.js";
 import { Heading, type HeadingProps } from "./Heading.js";
@@ -18,6 +19,8 @@ export const mdxComponents = {
     h4: heading("h4"),
     h5: heading("h5"),
     h6: heading("h6"),
-    p: (props: ComponentProps<"div">) => <div {...props} className={styles.p} />,
+    // a div, because MDX wraps JSX written inline with text in a paragraph, and a component rendering a block element
+    // there would be invalid inside a p. The role keeps it a paragraph to assistive technology.
+    p: ({ className, ...props }: ComponentProps<"div">) => <div role="paragraph" {...props} className={classnames(styles.p, className)} />,
     code: Code
 };

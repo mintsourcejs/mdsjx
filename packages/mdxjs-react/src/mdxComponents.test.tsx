@@ -6,6 +6,27 @@ import { mdxComponents } from "./mdxComponents.js";
 
 import codeLiveStyles from "./CodeLive.module.css";
 
+describe("mdxComponents paragraphs should", () => {
+    it("render a div with the paragraph role", () => {
+        const html = renderToStaticMarkup(<mdxComponents.p>Some text</mdxComponents.p>);
+
+        expect(html).toMatch(/^<div role="paragraph"/);
+        expect(html).toContain("Some text");
+    });
+
+    it("keep a className it is given", () => {
+        const html = renderToStaticMarkup(<mdxComponents.p className="intro">Some text</mdxComponents.p>);
+
+        expect(html).toMatch(/class="[^"]*\bintro\b[^"]*"/);
+    });
+
+    it("allow block elements inside", () => {
+        const html = renderToStaticMarkup(<mdxComponents.p>Try <div>this</div> out</mdxComponents.p>);
+
+        expect(html).toContain("<div>this</div>");
+    });
+});
+
 describe("mdxComponents headings should", () => {
     it.each(["h1", "h2", "h3", "h4", "h5", "h6"] as const)("render %s with an anchor link to its id", (tag) => {
         const Heading = mdxComponents[tag];
