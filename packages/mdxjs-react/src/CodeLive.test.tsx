@@ -45,14 +45,54 @@ describe("CodeLive should", () => {
         await waitFor(() => expect(container.getElementsByClassName(styles.codeExample!)[0]?.querySelector("pre")?.textContent).toBeTruthy());
     });
 
-    it("toggle the editor when the button is clicked", () => {
+    it("open the editor by default", () => {
         const { container } = render(<CodeLive code="<b>hello</b>" />);
         const editor = container.getElementsByClassName(styles.collapse!)[0]!;
 
-        expect(editor.classList.contains(styles.open!)).toBe(false);
-        fireEvent.click(screen.getByRole("button"));
         expect(editor.classList.contains(styles.open!)).toBe(true);
-        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getByRole("button", { name: "Code editor" }).getAttribute("aria-expanded")).toBe("true");
+    });
+
+    it("toggle the editor when the button is clicked", () => {
+        const { container } = render(<CodeLive code="<b>hello</b>" openDefault={false} />);
+        const editor = container.getElementsByClassName(styles.collapse!)[0]!;
+
         expect(editor.classList.contains(styles.open!)).toBe(false);
+        fireEvent.click(screen.getByRole("button", { name: "Code editor" }));
+        expect(editor.classList.contains(styles.open!)).toBe(true);
+        fireEvent.click(screen.getByRole("button", { name: "Code editor" }));
+        expect(editor.classList.contains(styles.open!)).toBe(false);
+    });
+
+    it("expose the editor's state on the toggle button", () => {
+        render(<CodeLive code="<b>hello</b>" openDefault={false} />);
+        const toggle = screen.getByRole("button", { name: "Code editor" });
+
+        expect(toggle.getAttribute("type")).toBe("button");
+        expect(toggle.getAttribute("aria-expanded")).toBe("false");
+        fireEvent.click(toggle);
+        expect(toggle.getAttribute("aria-expanded")).toBe("true");
+    });
+
+    it("leave the editor when Escape is pressed", () => {
+        const { container } = render(<CodeLive code="<b>hello</b>" />);
+        const editor = container.querySelector<HTMLElement>("pre[aria-label='Code editor']")!;
+
+        editor.focus();
+        expect(document.activeElement).toBe(editor);
+        fireEvent.keyDown(editor, { key: "Escape" });
+        expect(document.activeElement).not.toBe(editor);
+    });
+
+    it("size tabs by the indent", () => {
+        const { container } = render(<CodeLive code="<b>hello</b>" indent={4} />);
+
+        expect(container.querySelector<HTMLElement>("pre[aria-label='Code editor']")!.style.tabSize).toBe("4");
+    });
+
+    it("disable the reset button until the code is edited", () => {
+        render(<CodeLive code="<b>hello</b>" />);
+
+        expect((screen.getByRole("button", { name: "Reset" }) as HTMLButtonElement).disabled).toBe(true);
     });
 });

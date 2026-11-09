@@ -297,6 +297,9 @@ importers:
       prism-react-renderer:
         specifier: ^2.3.1
         version: 2.4.1(react@18.3.1)
+      use-editable:
+        specifier: ^2.3.3
+        version: 2.3.3(react@18.3.1)
     devDependencies:
       '@testing-library/dom':
         specifier: ^10.4.2

@@ -1,6 +1,6 @@
 {
   "name": "@mintsourcejs/mdxjs-react",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -35,7 +35,8 @@
   },
   "dependencies": {
     "classnames": "^2.3.2",
-    "prism-react-renderer": "^2.3.1"
+    "prism-react-renderer": "^2.3.1",
+    "use-editable": "^2.3.3"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.2",
